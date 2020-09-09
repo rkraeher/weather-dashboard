@@ -22,21 +22,24 @@
         <div class="row">
             <div class="col-4 bg-light">  <!--Here is where the search elements go-->
                 <form class="form-inline m-2">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search for a city" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    <input class="form-control mr-sm-2" id="citySearch" type="search" placeholder="Search for a city" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" id="searchBtn" type="submit">Search</button>
                 </form>
-                <!--Divs holding the saved searches will go here-->
+                
+                <div class="card m-2" style="width: 18rem;">
+                    <ul class="list-group list-group-flush"></ul> <!--lis for the saved searches will go here. Use BS card list-groups component-->
+                </div>
                 <button class="btn btn-outline-success my-2 my-sm-0 m-2" type="submit">Clear History</button>
             </div>
             <div class="col-8">
                 <div class="row">
                     <div class="col-12"> <!--Here is where all the info for the current city goes-->
-                        <div class="border m-2 p-2">
-                            <h2>City Name (date) #Icon </h2> <!--Include an icon depending on sunny, cloudy, etc-->
-                                <p>Temperarature: </p>
-                                <p>Humidity: </p>
-                                <p>Wind: </p>
-                                <p>UV Index: #Icon </p> <!--Put the UV index inside a div that has a color corresponding to favorable, moderate or severe conditions-->
+                        <div class="border rounded m-2 p-2">
+                            <h2 class="current-weather"> #Icon </h2> <!--Include an icon depending on sunny, cloudy, etc-->
+                                <p id="temperature"></p>
+                                <p id="humidity"></p>
+                                <p id="wind-speed"></p>
+                                <p id="uvi"></p> <!--Put the UV index inside a div that has a color corresponding to favorable, moderate or severe conditions-->
                         </div>
                     </div>
                 </div>
@@ -45,8 +48,8 @@
                         <h1>5-Day Forecast</h1>
                     </div>
                 </div>
-                <div class="row five-day">
-                    <div class="col-2 m-2 bg-primary">
+                <div class="row five-day justify-content-center">
+                    <div class="col-2 m-2 bg-primary rounded">
                         <!--Gives the forecast for the day after current day-->
                         <!--Here is where cards displaying 5 day forecast data goes. I use col-2 so that there is space for margin/padding-->
                         <h4 class="m-1 text-center">Date</h4>
@@ -54,25 +57,25 @@
                         <p>Temp: </p>
                         <p>Humidity: </p> 
                     </div>
-                    <div class="col-2 m-2 bg-primary">
+                    <div class="col-2 m-2 bg-primary rounded">
                         <h4 class="m-1 text-center">Date</h4>
                         <img> <!--Icon indicating sunny etc. --> 
                         <p>Temp: </p>
                         <p>Humidity: </p> 
                     </div>
-                    <div class="col-2 m-2 bg-primary">
+                    <div class="col-2 m-2 bg-primary rounded">
                         <h4 class="m-1 text-center">Date</h4>
                         <img> <!--Icon indicating sunny etc. --> 
                         <p>Temp: </p>
                         <p>Humidity: </p> 
                     </div>
-                    <div class="col-2 m-2 bg-primary">
+                    <div class="col-2 m-2 bg-primary rounded">
                         <h4 class="m-1 text-center">Date</h4>
                         <img> <!--Icon indicating sunny etc. --> 
                         <p>Temp: </p>
                         <p>Humidity: </p> 
                     </div>
-                    <div class="col-2 m-2 bg-primary">
+                    <div class="col-2 m-2 bg-primary rounded">
                         <h4 class="m-1 text-center">Date</h4>
                         <img> <!--Icon indicating sunny etc. --> 
                         <p>Temp: </p>
@@ -86,9 +89,10 @@
 
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <script src="scripts/script.js"></script>
 </body>
 </html>
