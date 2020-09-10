@@ -22,24 +22,24 @@
         <div class="row">
             <div class="col-4 bg-light">  <!--Here is where the search elements go-->
                 <form class="form-inline m-2">
-                    <input class="form-control mr-sm-2" id="citySearch" type="search" placeholder="Search for a city" aria-label="Search">
+                    <input class="form-control mr-sm-2" id="city-search" type="search" placeholder="Search for a city" aria-label="Search">     <!--Media query for resize-->
                     <button class="btn btn-outline-success my-2 my-sm-0" id="searchBtn" type="submit">Search</button>
                 </form>
                 
-                <div class="card m-2" style="width: 18rem;">
-                    <ul class="list-group list-group-flush"></ul> <!--lis for the saved searches will go here. Use BS card list-groups component-->
+                <div class="card m-2">
+                    <ul class="list-group list-group-flush" id="saved-searches"></ul> <!--lis for the saved searches will go here. Use BS card list-groups component-->
                 </div>
                 <button class="btn btn-outline-success my-2 my-sm-0 m-2" type="submit">Clear History</button>
             </div>
             <div class="col-8">
                 <div class="row">
-                    <div class="col-12"> <!--Here is where all the info for the current city goes-->
+                    <div class="col-12"> <!--Today's weather in selected city-->
                         <div class="border rounded m-2 p-2">
                             <h2 class="current-weather"> #Icon </h2> <!--Include an icon depending on sunny, cloudy, etc-->
                                 <p id="temperature"></p>
                                 <p id="humidity"></p>
                                 <p id="wind-speed"></p>
-                                <p id="uvi"></p> <!--Put the UV index inside a div that has a color corresponding to favorable, moderate or severe conditions-->
+                                <p>UV Index: <span id="uvi"></span></p>
                         </div>
                     </div>
                 </div>
@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 <div class="row five-day justify-content-center">
-                    <div class="col-2 m-2 bg-primary rounded">
+                    <div class="col-2 m-2 bg-primary rounded">      <!--Maybe add id for individual days-->
                         <!--Gives the forecast for the day after current day-->
                         <!--Here is where cards displaying 5 day forecast data goes. I use col-2 so that there is space for margin/padding-->
                         <h4 class="m-1 text-center">Date</h4>

@@ -5,3 +5,9 @@ nav {
 .five-day {
     color: white;
 }
+
+#uvi {
+    display: inline-block;
+    padding: 0.25rem;
+    color: white;
+}

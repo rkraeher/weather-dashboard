@@ -1,17 +1,16 @@
 $(document).ready(function() {
 
     // window.localStorage.clear();
+    
+    // forecast("Boston");     //** Just for testing purposes */
 
-var date = moment().format("MM/DD/YYYY");
-var cityList = JSON.parse(window.localStorage.getItem("cities")) || []; // This is the local storage of saved searches. 
-var currentCity; 
+var date = moment().format("MM/DD/YYYY"); 
+var cityList = JSON.parse(window.localStorage.getItem("cities")) || [];
   
 $("#searchBtn").on("click", function(event){
     event.preventDefault();
 
-    var cityName = $("#citySearch").val().trim();   // This needs a condition so empty or unsuccessful searches aren't added and the user is alerted. 
-    cityList.push(cityName);                        // Don't add repeated names.       
-
+    var cityName = $("#city-search").val().trim(); // Alert if invalid input   
     var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&units=imperial&appid=1db4a4aa0a06e3711b3a075424bd2727";
 
     $.ajax({
@@ -21,130 +20,112 @@ $("#searchBtn").on("click", function(event){
         console.log(response);
         currentCity = response.name;
         currentDisplay(response);
-        document.querySelector("#citySearch").value = "";
+        document.querySelector("#city-search").value = "";
    
-        window.localStorage.setItem("cities", JSON.stringify(cityList)); 
-        
-        console.log(cityList);
+        if (cityList.indexOf(currentCity) === -1){   // Right now this makes it so that nothing redundant is added to local storage, but if it is already in local storage it won't create the li either. 
+            cityList.push(cityName);  
+            window.localStorage.setItem("cities", JSON.stringify(cityList));     
+        };
 
-        cityList.forEach(function (){
-            var savedCity = $("<li>").addClass("list-group-item");
-            $(".list-group").prepend(savedCity).text(cityName); 
-            $(savedCity).append("<button>");
         
-        });
+        // cityList.forEach(function (){                    //** Tried moving this outside below and make it a separate function. 
+        //     var savedCity = $("<li>");
+        //     $(savedCity).addClass("list-group-item");
+        //     $(savedCity).text(cityName);
+        //     $("#saved-searches").prepend(savedCity)
+        //     var savedCityBtn = $("<button>");
+        //     savedCityBtn.style.display = "none";        //!! Comment this out and it breaks. 
+        //     $(savedCity).append(savedCityBtn);
+        // });
 
     });
+
 });
 
+$("#saved-searches").on("click", function(event){
+    updateCity(event.target.innerHTML);
+    // Add some css to make the li-element light up a certain color indicating that they clicked it
+});
 
+function searchHistory (){
+    for (i = 0; i < cityList.length; i++){
+        console.log(cityList);
+        
+        var savedCity = $("<li>");
+        $(savedCity).addClass("list-group-item");
+        $(savedCity).text(cityList);
+        $("#saved-searches").prepend(savedCity)
+        var savedCityBtn = $("<button>");
+        savedCityBtn.style.display = "none";        //!! Comment this out and it breaks. 
+        $(savedCity).append(savedCityBtn);
+    
+    };
+};
+searchHistory();
+
+function updateCity (city){
+    event.preventDefault();
+    var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=1db4a4aa0a06e3711b3a075424bd2727";
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function(response){
+        currentDisplay(response);
+        $(".current-weather").text(response.name +" (" + date +  ")" +" #Icon");
+        document.querySelector("#city-search").value = "";
+    });
+};
+
+function forecast (city){
+    var queryURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=imperial&appid=1db4a4aa0a06e3711b3a075424bd2727";
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+    }).then(function(info){
+        console.log(info);
+        console.log(info.list[0].main.temp);
+        console.log(info.list[8].main.temp);
+        console.log(info.list[16].main.temp);
+        console.log(info.list[24].main.temp);
+        console.log(info.list[39].main.temp);
+    });
+};
 
 function currentDisplay(response){
-    $(".current-weather").text(currentCity +" (" + date +  ")" +" #Icon"); //current city + current date + icon (which isn't text)
+    $(".current-weather").text(currentCity +" (" + date +  ")" +" #Icon");
     var temperature = response.main.temp.toFixed();
     var humidity = response.main.humidity;
     var wind = response.wind.speed.toFixed(1);
-    var uvi = // I will need to do another function to get the UV-index that passes the response city's coordinates as arguments to get the UVI: https://openweathermap.org/api/uvi //
-                // The uvi also needs to be displayed inside a colored box whose css changes depending on UVI conditions (favorable, moderate, severe)
+    
     $("#temperature").text("Temperature: " + temperature + " \u00B0F");
     $("#humidity").text("Humidity: " + humidity + "%");
     $("#wind-speed").text("Wind Speed: " + wind + " MPH");
-    $("#uvi").text("UV Index: ");
+    
+    
+    var lat = response.coord.lat;
+    var lon = response.coord.lon;
 
-    // searchHistory();
-   
+    var queryUvi = "http://api.openweathermap.org/data/2.5/uvi?appid=1db4a4aa0a06e3711b3a075424bd2727&lat=" + lat + "&lon=" + lon;
+
+    $.ajax({
+        url: queryUvi,
+        method: "GET"
+    }).then(function(data){
+        var uvi = data.value;
+        $("#uvi").text(uvi);  
+        var uviBox = document.querySelector("#uvi");
+        if (uvi < 3.3){
+            uviBox.style.backgroundColor = "green";
+        } else if (uvi > 3.3 && uvi < 6.6){
+            uviBox.style.backgroundColor = "orange";
+        } else {
+            uviBox.style.backgroundColor = "red";
+        };
+    });
+
+
 };
 
-// function searchHistory (){
-
-//     for (var i = 0; i < cityList.length; i++){
-          
-//         // var cityName = data
-        
-
-
-
-//         var getCity = localStorage.getItem(currentCity); 
-//         var savedCity = $("<li>").addClass("list-group-item");
-//         $(".list-group").prepend(savedCity).text(currentCity); 
-             // I also need to add a button so it can have an event listener. 
-
-        // var savedCity2 = $("<li>").addClass("list-group-item");
-        // $(".list-group").prepend(savedCity2).text(getCity.name);
-
-
-
-        //var history = jSON parse(localstorage of my key) || []
-        // if history
-
-        //It is all connected to one key
-
-        // You are pushing new searches to the cityList array.  
-
-        // if (history.indexOf(searchValue) === -1){   //NOt on the aray
-        //     history.push(searchValue);
-        //     localStorage.setitem (key, stringified array);
-
-        // }
-
-        // if (history.length > 0){
-            // searchWeather(history[history.length-1])
-        // }
-
-//         // Looking at the quiz, I used the forEach method. 
-
-//     } 
-// };
-
-
-
-
-
-
-
-
-
-// for(var i =0; i < localStorage.length; i++){
-//     console.log(localStorage.getItem(localStorage.key(i)));
-   
-//   }
-
-// init();
-
-// function renderTodos() {
-//     // Clear todoList element and update todoCountSpan
-//     $(".list-group").innerHTML = "";
-  
-//     // Render a new li for each todo
-//     for (var i = 0; i < cityList.length; i++) {
-//       var city = cityList[i];
-  
-//       var li = document.createElement("li");
-//       li.textContent = todo;
-//       li.setAttribute("data-index", i);
-  
-//       var button = document.createElement("button");
-//       button.textContent = "Complete";
-  
-//       li.appendChild(button);
-//       todoList.appendChild(li);
-//     }
-//   }
-  
-
-// function init() {
-//     // Get stored todos from localStorage
-//     // Parsing the JSON string to an object
-//     var storedTodos = JSON.parse(localStorage.getItem(currentCity));
-  
-//     // If todos were retrieved from localStorage, update the todos array to it
-//     if (storedTodos !== null) {
-//       cityList = storedTodos;
-//     }
-  
-//     // Render todos to the DOM
-//     renderTodos();
-//   }
   
 
 
