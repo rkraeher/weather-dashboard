@@ -1,11 +1,13 @@
 $(document).ready(function() {
 
+    // Global variables for holding date, local storage, and images
 var date = moment().format("MM/DD/YYYY"); 
 var cityList = JSON.parse(window.localStorage.getItem("cities")) || [];
 var latestSearch = cityList[cityList.length - 1];
 var weatherIcon = $("<img>").attr({src: "data:,"});
 $("#weather-icon").append(weatherIcon);
 
+    // This function makes the page display weather for the most recently searched city or hides the HTML if there is none. 
 function pageSetup (){
     if (Array.isArray(cityList) && cityList.length ){
         updateCity(latestSearch);
@@ -15,6 +17,7 @@ function pageSetup (){
 };
 pageSetup();
 
+    // Event handler for searching a city and adding it to local storage. It also tells the user if the search term is invalid. 
 $("#search-btn").on("click", function(event){
     event.preventDefault();
 
@@ -35,20 +38,23 @@ $("#search-btn").on("click", function(event){
             window.localStorage.setItem("cities", JSON.stringify(cityList));   
         };
     }).fail(function(){
-        alert("City not found. Please try again.");          // Alerts are bad practice. Try using jQuery dialog: https://jqueryui.com/dialog/#default 
+        alert("City not found. Please try again.");
         document.querySelector("#city-search").value = "";
     });
 });
 
+    // Event handler to change the weather data display if the user clicks on a saved city. Saved cities are stored in divs under the search input.
 $("#saved-searches").on("click", function(event){
     updateCity(event.target.innerHTML);
 });
 
+    // Event handler for the button to clear local storage and reload the page. 
 $("#clear-btn").on("click", function(event){
     localStorage.clear();
     location.reload();  
 });
 
+    // This function checks local storage and populates the search history with individual divs for every saved city kept in local storage. 
 function searchHistory (){
     for (i = 0; i < cityList.length; i++){   
         var savedCity = $("<li>");
@@ -59,6 +65,7 @@ function searchHistory (){
 };
 searchHistory();
 
+    // This function is used to update the displayed city weather dynamically whenever the user clicks on a saved city. 
 function updateCity (city){
     var queryURL = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=imperial&appid=1db4a4aa0a06e3711b3a075424bd2727";
     $.ajax({
@@ -75,6 +82,7 @@ function updateCity (city){
     });
 };
 
+// This function calls and displays weather data for the five-day forecast. 
 function forecast (city){
     var queryURL = "http://api.openweathermap.org/data/2.5/forecast?q=" + city + "&units=imperial&appid=1db4a4aa0a06e3711b3a075424bd2727";
     $.ajax({
@@ -116,10 +124,11 @@ function forecast (city){
             };   
         };
         fiveDays();
-       
     });
 };
 
+//  This function contains all the code for updating the weather data that is displayed in the app. 
+// It also contains a callback to get the uv index, as that information is not included in the "Current Weather Data" call. 
 function currentDisplay(response){
     $(".current-weather").text(response.name +" (" + date +  ")");       
     
@@ -157,18 +166,5 @@ function currentDisplay(response){
             uviBox.style.backgroundColor = "red";
         };
     });
-
-
 };
-
-// ESSENTIAL 
-// Add commentary
-// README (including screen shots)
-
-// BONUS
-// jQuery dialog
-// Media query/responsive problems
-
-
-
 });
