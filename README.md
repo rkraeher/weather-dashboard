@@ -23,7 +23,7 @@ weather data from the OpenWeather API.
 
 #Deployed App:
 
-![Screenshot of deployed app]
+![Screenshot of deployed app](assets/images/documentation/screenshot.png)
 
 #Created by
 Rudi Kraeher
