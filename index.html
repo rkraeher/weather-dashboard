@@ -20,66 +20,67 @@
     </header>
     <div class="container">
         <div class="row">
-            <div class="col-4 bg-light">  <!--Here is where the search elements go-->
+            <div class="col-4 bg-light">  <!--Search input, buttons, and history-->
                 <form class="form-inline m-2">
-                    <input class="form-control mr-sm-2" id="city-search" type="search" placeholder="Search for a city" aria-label="Search">     <!--Media query for resize-->
-                    <button class="btn btn-outline-success my-2 my-sm-0" id="searchBtn" type="submit">Search</button>
+                    <input class="form-control mr-sm-2" id="city-search" type="search" placeholder="Search for a city" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" id="search-btn" type="submit">Search</button>
                 </form>
                 
                 <div class="card m-2">
-                    <ul class="list-group list-group-flush" id="saved-searches"></ul> <!--lis for the saved searches will go here. Use BS card list-groups component-->
+                    <ul class="list-group list-group-flush" id="saved-searches"></ul>
                 </div>
-                <button class="btn btn-outline-success my-2 my-sm-0 m-2" type="submit">Clear History</button>
+                <button class="btn btn-outline-success my-2 my-sm-0 m-2" id="clear-btn" type="submit">Clear History</button>
             </div>
-            <div class="col-8">
-                <div class="row">
-                    <div class="col-12"> <!--Today's weather in selected city-->
-                        <div class="border rounded m-2 p-2">
-                            <h2 class="current-weather"> #Icon </h2> <!--Include an icon depending on sunny, cloudy, etc-->
+            <div class="col-8" id="show-hide">
+                <div class="row border rounded m-2 p-2">
+                    <div class="col-8"> <!--Today's weather in most recently searched city-->
+                        <div id="weather-display">
+                            <h2 class="current-weather"></h2>
                                 <p id="temperature"></p>
                                 <p id="humidity"></p>
                                 <p id="wind-speed"></p>
                                 <p>UV Index: <span id="uvi"></span></p>
                         </div>
                     </div>
+                    <div class="col-4">
+                        <span><div id="weather-icon"></div></span>   
+                    </div>
                 </div>
-                <div class="row">
+                <div class="row five-day">
                     <div class="col-12">
-                        <h1>5-Day Forecast</h1>
+                        <h1>5-Day Forecast</h1> <!--Forecast data for the next five days-->
                     </div>
                 </div>
                 <div class="row five-day justify-content-center">
-                    <div class="col-2 m-2 bg-primary rounded">      <!--Maybe add id for individual days-->
-                        <!--Gives the forecast for the day after current day-->
-                        <!--Here is where cards displaying 5 day forecast data goes. I use col-2 so that there is space for margin/padding-->
-                        <h4 class="m-1 text-center">Date</h4>
-                        <img> <!--Icon indicating sunny etc. --> 
-                        <p>Temp: </p>
-                        <p>Humidity: </p> 
+                    <div class="col-2 m-2 bg-primary rounded" id="day-1">      
+                        <h5 class="m-1 text-center"></h5>                       
+                        <img src="data:," alt="">
+                        <p></p>
+                        <p class="humid"></p> 
                     </div>
-                    <div class="col-2 m-2 bg-primary rounded">
-                        <h4 class="m-1 text-center">Date</h4>
-                        <img> <!--Icon indicating sunny etc. --> 
-                        <p>Temp: </p>
-                        <p>Humidity: </p> 
+                    <div class="col-2 m-2 bg-primary rounded" id="day-2">
+                        <h5 class="m-1 text-center"></h5>
+                        <img src="data:," alt="">
+                        <p></p>
+                        <p class="humid"></p> 
                     </div>
-                    <div class="col-2 m-2 bg-primary rounded">
-                        <h4 class="m-1 text-center">Date</h4>
-                        <img> <!--Icon indicating sunny etc. --> 
-                        <p>Temp: </p>
-                        <p>Humidity: </p> 
+                    <div class="col-2 m-2 bg-primary rounded" id="day-3">
+                        <h5 class="m-1 text-center"></h5>
+                        <img src="data:," alt="">
+                        <p></p>
+                        <p class="humid"></p> 
                     </div>
-                    <div class="col-2 m-2 bg-primary rounded">
-                        <h4 class="m-1 text-center">Date</h4>
-                        <img> <!--Icon indicating sunny etc. --> 
-                        <p>Temp: </p>
-                        <p>Humidity: </p> 
+                    <div class="col-2 m-2 bg-primary rounded" id="day-4">
+                        <h5 class="m-1 text-center"></h5>
+                        <img src="data:," alt="">
+                        <p></p>
+                        <p class="humid"></p> 
                     </div>
-                    <div class="col-2 m-2 bg-primary rounded">
-                        <h4 class="m-1 text-center">Date</h4>
-                        <img> <!--Icon indicating sunny etc. --> 
-                        <p>Temp: </p>
-                        <p>Humidity: </p> 
+                    <div class="col-2 m-2 bg-primary rounded" id="day-5">
+                        <h5 class="m-1 text-center"></h5>
+                        <img src="data:," alt=""> 
+                        <p></p>
+                        <p class="humid"></p> 
                     </div>
                 </div>
             </div>

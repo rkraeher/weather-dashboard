@@ -11,3 +11,11 @@ nav {
     padding: 0.25rem;
     color: white;
 }
+
+li:hover {
+    background: #F27C70;
+}
+
+li:active {
+    background: #4CAF50;
+}
